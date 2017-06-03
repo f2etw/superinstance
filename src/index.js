@@ -3,6 +3,8 @@ import https from 'https';
 import methods from 'methods';
 import superagent from 'superagent';
 
+const Request = superagent.Request;
+
 export default function (app, configs = {}) {
   let url = app;
   let listen;
@@ -18,22 +20,41 @@ export default function (app, configs = {}) {
 
   const obj = {};
 
+  obj.configs = [configs];
+
+  obj.base = '';
+
+  Object.keys(Request.prototype).forEach((method) => {
+    if (/^[a-zA-Z]+$/.test(method)) {
+      obj[method] = function Cache(...args) {
+        const config = {};
+        config[method] = args;
+
+        return { ...this, configs: this.configs.concat(config) };
+      };
+    }
+  });
+
   methods.forEach((method) => {
-    obj[method] = (path) => {
-      const req = superagent[method](`${url}${path}`);
+    obj[method] = function Method(path) {
+      const req = superagent[method](`${url}${this.base}${path}`);
       if (listen) req._server = listen; // eslint-disable-line
 
-      Object.keys(configs).forEach((key) => {
-        if (Array.isArray(configs[key])) {
-          req[key](...configs[key]);
-        } else req[key](configs[key]);
-      });
+      this.configs.forEach(config => Object.keys(config).forEach((key) => {
+        if (Array.isArray(config[key])) {
+          req[key](...config[key]);
+        } else req[key](config[key]);
+      }));
 
       return req;
     };
   });
 
   obj.del = obj.delete;
+
+  obj.path = function Path(path) {
+    return { ...this, base: `${this.base}${path}` };
+  };
 
   return obj;
 }

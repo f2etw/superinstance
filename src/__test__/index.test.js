@@ -46,4 +46,33 @@ describe('channel', () => {
     expect(req.get(path).url).toBe(`http://www.google.com${path}`);
     expect(req.get(path)).toMatchSnapshot();
   });
+
+  it('create instances', async () => {
+    const apiKey = faker.random.uuid();
+    const req = superinstance(app, { set: { 'API-Key': apiKey } });
+
+    const base = req.path('/base');
+
+    monitor.mockClear();
+    const instance1 = req.query({ format: 'json' });
+    const reply = await instance1.get('/path1');
+    expect(reply.body).toEqual({ status: 'ok' });
+    expect(monitor).toHaveBeenCalledWith(
+      expect.objectContaining({ url: '/path1?format=json', method: 'GET', headers: expect.objectContaining({ 'api-key': apiKey }) }),
+    );
+
+    monitor.mockClear();
+    const instance2 = instance1.query({ year: 2020 });
+    await instance2.get('/path2');
+    expect(monitor).toHaveBeenCalledWith(
+      expect.objectContaining({ url: '/path2?format=json&year=2020', method: 'GET', headers: expect.objectContaining({ 'api-key': apiKey }) }),
+    );
+
+    monitor.mockClear();
+    const instance3 = base.query({ yaer: 2020 });
+    await instance3.get('/path3');
+    expect(monitor).toHaveBeenCalledWith(
+      expect.objectContaining({ url: '/base/path3?yaer=2020', method: 'GET', headers: expect.objectContaining({ 'api-key': apiKey }) }),
+    );
+  });
 });
