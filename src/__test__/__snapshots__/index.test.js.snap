@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`channel get url 1`] = `
+Object {
+  "data": undefined,
+  "headers": Object {
+    "user-agent": "node-superagent/3.5.2",
+    "x-api-key": "foobar",
+  },
+  "method": "GET",
+  "url": "http://www.google.com/hello",
+}
+`;

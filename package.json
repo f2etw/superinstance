@@ -16,6 +16,10 @@
     "build": "rm -rf lib && mkdir lib && babel src/index.js --out-file lib/index.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "clearMocks": true
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
@@ -23,12 +27,19 @@
     "babel-jest": "^20.0.3",
     "babel-polyfill": "^6.23.0",
     "babel-preset-react-native": "^1.9.2",
+    "body-parser": "^1.17.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
+    "express": "^4.15.3",
+    "faker": "^4.1.0",
     "jest": "^20.0.4",
     "semantic-release": "^6.3.6"
+  },
+  "dependencies": {
+    "methods": "^1.1.2",
+    "superagent": "^3.5.2"
   }
 }
