@@ -1,0 +1,34 @@
+{
+  "name": "superinstance",
+  "version": "0.0.0",
+  "description": "allow creation of separate instances of superagent",
+  "main": "lib/index.js",
+  "repository": "https://github.com/f2etw/superinstance.git",
+  "author": "YuTin Liu <yuting1987@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepublish": "npm run build",
+    "develop": "jest --watch ./src",
+    "test": "eslint ./src; jest --coverage ./src",
+    "build": "rm -rf lib && mkdir lib && babel src/index.js --out-file lib/index.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-react-native": "^1.9.2",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "jest": "^20.0.4",
+    "semantic-release": "^6.3.6"
+  }
+}
