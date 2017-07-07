@@ -37,7 +37,7 @@ export default function (app, configs = {}) {
 
   methods.forEach((method) => {
     obj[method] = function Method(path) {
-      const req = superagent[method](`${url}${this.base}${path}`);
+      const req = superagent[method](`${url}${this.base}${path || ''}`);
       if (listen) req._server = listen; // eslint-disable-line
 
       this.configs.forEach(config => Object.keys(config).forEach((key) => {
@@ -53,7 +53,7 @@ export default function (app, configs = {}) {
   obj.del = obj.delete;
 
   obj.path = function Path(path) {
-    return { ...this, base: `${this.base}${path}` };
+    return { ...this, base: `${this.base}${path || ''}` };
   };
 
   return obj;
