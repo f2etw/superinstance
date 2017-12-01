@@ -4,7 +4,7 @@ exports[`channel get url 1`] = `
 Object {
   "data": undefined,
   "headers": Object {
-    "user-agent": "node-superagent/3.5.2",
+    "user-agent": "node-superagent/3.8.1",
     "x-api-key": "foobar",
   },
   "method": "GET",

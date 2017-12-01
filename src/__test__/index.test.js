@@ -1,3 +1,4 @@
+import http from 'http';
 import faker from 'faker';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -14,6 +15,17 @@ app.use((req, res) => {
 });
 
 describe('channel', () => {
+  it('get http server', async () => {
+    const path = `/${faker.lorem.word()}`;
+    const apiKey = faker.random.uuid();
+    const req = superinstance(http.createServer(app), { set: { 'API-Key': apiKey } });
+    const reply = await req.get(path);
+    expect(reply.body).toEqual({ status: 'ok' });
+    expect(monitor).toHaveBeenCalledWith(
+      expect.objectContaining({ url: path, method: 'GET', headers: expect.objectContaining({ 'api-key': apiKey }) }),
+    );
+  });
+
   it('get express', async () => {
     const path = `/${faker.lorem.word()}`;
     const apiKey = faker.random.uuid();

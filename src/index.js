@@ -9,8 +9,8 @@ export default function (app, configs = {}) {
   let url = app;
   let listen;
 
-  if (typeof app === 'function') {
-    const server = http.createServer(app);
+  if (typeof app === 'function' || typeof app === 'object') {
+    const server = app.address ? app : http.createServer(app);
     const addr = server.address();
 
     if (!addr) listen = server.listen(0);
